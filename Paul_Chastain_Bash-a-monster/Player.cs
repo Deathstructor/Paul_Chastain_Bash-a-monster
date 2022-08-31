@@ -2,5 +2,6 @@ using System;
 
 public class Player
 {
-    int HP = 100;
+    public int HP = 100;
+    public double damage = 10;
 }
