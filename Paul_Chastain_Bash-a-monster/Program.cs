@@ -1,6 +1,5 @@
-﻿using System.Security;
-using System;
-using System.Threading.Tasks;
+﻿using System;
+using System.Threading;
 
 mainGame();
 
@@ -11,11 +10,18 @@ void mainGame()
 
     Random rdm = new Random();
 
+    Console.WriteLine("Player HP: " + player.HP);
+    Console.WriteLine("Enemy HP: " + enemy.HP);
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine();
+    Thread.Sleep(2000);
 
-    while (player.HP > 0 || enemy.HP > 0)
+    while (player.HP > 0 && enemy.HP > 0)
     {
-        Console.WriteLine("Player HP: " + player.hp);
-        
+        player.damage = 10;
+        enemy.damage = 10;
+
         //Random crit chance
         if (rdm.Next(10) >= 7)
         {
@@ -26,6 +32,9 @@ void mainGame()
             enemy.damage = enemy.damage + enemy.damage * 0.5;
         }
 
+        player.HP -= (int) enemy.damage;
+        enemy.HP -= (int) player.damage;
+        
         if (player.HP < 0)
         {
             player.HP = 0;
@@ -35,9 +44,24 @@ void mainGame()
             enemy.HP = 0;
         }
 
-        player.HP -= (int) enemy.damage;
-        enemy.HP -= (int) player.damage;
+        Console.WriteLine("Player HP: " + player.HP);
+        Console.WriteLine("Player Damage: " + player.damage);
+        Console.WriteLine();
+        Console.WriteLine("Enemy HP: " + enemy.HP);
+        Console.WriteLine("Enemy Damage: " + enemy.damage);
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine();
+        Thread.Sleep(2000);
     }
 
+    if (enemy.HP == 0)
+    {
+        Console.WriteLine("Player has won!");
+    } else {
+        Console.WriteLine("Enemy has won!");
+    }
+    
+    Console.WriteLine("Press any key to exit");
     Console.ReadLine();
 }
